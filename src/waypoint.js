@@ -7,6 +7,7 @@ var PropTypes = React.PropTypes;
  */
 var Waypoint = React.createClass({
   propTypes: {
+    nonRelativeOffsetAdjustment: PropTypes.number,
     onEnter: PropTypes.func,
     onLeave: PropTypes.func,
     // threshold is percentage of the height of the visible part of the
@@ -21,6 +22,7 @@ var Waypoint = React.createClass({
    */
   getDefaultProps: function() {
     return {
+      nonRelativeOffsetAdjustment: 0,
       threshold: 0,
       onEnter: function() {},
       onLeave: function() {},
@@ -106,6 +108,13 @@ var Waypoint = React.createClass({
    */
   _distanceToTopOfScrollableParent: function(node) {
     if (this.scrollableParent !== window && !node.offsetParent) {
+      // Sometimes for specific design choices, adding position relative
+      // On the scrollable container doesn't make sense. Instead of
+      // forcing this css property, add the ability to specify an offset
+      // adjustment
+      if (this.props.nonRelativeOffsetAdjustment) {
+        return this.props.nonRelativeOffsetAdjustment;
+      }
       throw new Error(
         'The scrollable parent of Waypoint needs to have positioning to ' +
         'properly determine position of Waypoint (e.g. `position: relative;`)'
