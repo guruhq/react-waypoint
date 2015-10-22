@@ -1,5 +1,9 @@
 ## master (unreleased)
 
+## 0.3.1
+- Add nonRelativeOffsetAdjustment to manually set offsets when setting position
+  relative on an element that will break layout.
+
 ## 0.3.0
 
 - Fix Waypoints with the window element as their scrollable parent (Firefox only)
