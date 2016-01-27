@@ -1,5 +1,9 @@
 ## master (unreleased)
 
+## 1.2.4
+ - Add nonRelativeOffsetAdjustment to manually set offsets when setting position
+   relative on an element that will break layout.
+
 ## 1.2.1
 - Make bundled waypoint.js easier to import
 

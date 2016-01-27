@@ -8,6 +8,7 @@ const POSITIONS = {
 };
 
 const propTypes = {
+  nonRelativeOffsetAdjustment: PropTypes.number,
   // threshold is percentage of the height of the visible part of the
   // scrollable ancestor (e.g. 0.1)
   threshold: PropTypes.number,
@@ -18,6 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  nonRelativeOffsetAdjustment: 0,
   threshold: 0,
   onEnter() {},
   onLeave() {},
@@ -147,6 +149,13 @@ export default class Waypoint extends React.Component {
    */
   _distanceToTopOfScrollableAncestor(node) {
     if (this.scrollableAncestor !== window && !node.offsetParent) {
+      // Sometimes for specific design choices, adding position relative
+      // On the scrollable container doesn't make sense. Instead of
+      // forcing this css property, add the ability to specify an offset
+      // adjustment
+      if (this.props.nonRelativeOffsetAdjustment) {
+        return this.props.nonRelativeOffsetAdjustment;
+      }
       throw new Error(
         'The scrollable ancestor of Waypoint needs to have positioning to ' +
         'properly determine position of Waypoint (e.g. `position: relative;`)'
